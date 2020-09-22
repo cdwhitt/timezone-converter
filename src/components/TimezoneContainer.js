@@ -13,14 +13,17 @@ import { now, dropdownOptions } from "./helpers"
 
 const TimezoneContainer = () => {
 	const [myZone, setMyZone] = useState(moment.tz.guess())
-	const [origin, setOrigin] = useState(new Date(now))
+	const [origin, setOrigin] = useState(
+		new Date(moment.tz(moment().utc().format()))
+	)
 
 	const [target, setTarget] = useState("")
 	const [convertedTime, setConvertedTime] = useState("")
 
 	const resetCurrentTime = () => {
 		setMyZone(moment.tz.guess())
-		setOrigin(new Date(now))
+		setOrigin(new Date(moment.tz(moment().utc().format())))
+		setTarget("")
 	}
 
 	const handleSetZone = (event, { value }) => {
