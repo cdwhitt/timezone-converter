@@ -7,9 +7,10 @@ import {
 	Icon,
 	Button,
 	Dropdown,
+	Label,
 } from "semantic-ui-react"
 import moment from "moment-timezone"
-import { now, dropdownOptions } from "./helpers"
+import { dropdownOptions } from "./helpers"
 
 const TimezoneContainer = () => {
 	const [myZone, setMyZone] = useState(moment.tz.guess())
@@ -19,6 +20,9 @@ const TimezoneContainer = () => {
 
 	const [target, setTarget] = useState("")
 	const [convertedTime, setConvertedTime] = useState("")
+
+	let here = moment.tz(origin, myZone)
+	let destination = here.clone().tz(target || myZone)
 
 	const resetCurrentTime = () => {
 		setMyZone(moment.tz.guess())
@@ -34,15 +38,6 @@ const TimezoneContainer = () => {
 		setTarget(value)
 	}
 
-	console.log(origin, "ORIGIN")
-	console.log(myZone, "MY ZONE")
-	console.log(target, "TARGET")
-
-	let here = moment.tz(origin, myZone)
-	let destination = here.clone().tz(target || myZone)
-
-	console.log(destination.format(), "CONVERTED TIME")
-
 	return (
 		<Segment>
 			<Header as="h1" icon>
@@ -54,7 +49,14 @@ const TimezoneContainer = () => {
 			</Header>
 			<Container>
 				<DateTimePicker onChange={setOrigin} value={origin} />
-				<Button onClick={resetCurrentTime} color="blue">
+
+				<Button
+					onClick={resetCurrentTime}
+					color="blue"
+					size="small"
+					attached="right"
+					style={{ paddingBottom: "0.5em", paddingTop: "0.68em" }}
+				>
 					Reset to Current
 				</Button>
 			</Container>
@@ -77,10 +79,14 @@ const TimezoneContainer = () => {
 				options={dropdownOptions}
 			/>
 
-			<p>
-				The current date and time for your selection is:{" "}
-				{destination.format("MMMM Do YYYY, h:mm a")}
-			</p>
+			{origin && myZone && target ? (
+				<p>
+					The current date and time for your selection is:{" "}
+					{destination.format("MMMM Do YYYY, h:mm a")}
+				</p>
+			) : (
+				<Label color="blue">Please select an origin and a target time</Label>
+			)}
 		</Segment>
 	)
 }
