@@ -19,7 +19,6 @@ const TimezoneContainer = () => {
 	)
 
 	const [target, setTarget] = useState("")
-	const [convertedTime, setConvertedTime] = useState("")
 
 	let here = moment.tz(origin, myZone)
 	let destination = here.clone().tz(target || myZone)
