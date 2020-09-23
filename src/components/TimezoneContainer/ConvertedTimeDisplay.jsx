@@ -1,5 +1,5 @@
 import React from "react"
-import { Message, List } from "semantic-ui-react"
+import { Message, List, Header } from "semantic-ui-react"
 
 const ConvertedTimeDisplay = ({
 	incompleteFields,
@@ -10,8 +10,9 @@ const ConvertedTimeDisplay = ({
 		<Message info>
 			{!incompleteFields ? (
 				<List>
+					<Header as="h4">Based on your input:</Header>
 					<List.Item>
-						The current date and time for your selection is:
+						The date and time for the target timezone is:
 						<br />
 						<b>{destinationTime.format("MMMM Do YYYY, h:mm a")}</b>
 					</List.Item>
