@@ -1,16 +1,14 @@
 import React from "react"
 import { Message, List } from "semantic-ui-react"
 
-import moment from "moment-timezone"
-
 const ConvertedTimeDisplay = ({
-	badInput,
+	incompleteFields,
 	destinationTime,
-	originTimeString,
+	offsetDifference,
 }) => {
 	return (
 		<Message info>
-			{!badInput ? (
+			{!incompleteFields ? (
 				<List>
 					<List.Item>
 						The current date and time for your selection is:
@@ -21,13 +19,8 @@ const ConvertedTimeDisplay = ({
 						The difference between origin and target is:
 						<br />
 						<b>
-							{moment
-								.utc(
-									moment(destinationTime.format("MMMM Do YYYY, h:mm a")).diff(
-										moment(originTimeString.format("MMMM Do YYYY, h:mm a"))
-									)
-								)
-								.format("HH:mm:ss")}
+							{offsetDifference > 0 && "+"}
+							{offsetDifference} hours
 						</b>
 					</List.Item>
 				</List>

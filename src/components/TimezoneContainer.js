@@ -4,8 +4,9 @@ import { Header, Segment, Icon, Button, Grid, Divider } from "semantic-ui-react"
 import ToolTip from "./ToolTip"
 import DropdownInputs from "./DropdownInputs"
 import ConvertedTimeDisplay from "./ConvertedTimeDisplay"
+import PageFooter from "./PageFooter"
 import moment from "moment-timezone"
-import { getOriginTimeString } from "./helpers"
+import { getOriginTimeString, getTimeOffsets } from "./helpers"
 
 const TimezoneContainer = () => {
 	const [myZone, setMyZone] = useState(moment.tz.guess())
@@ -14,9 +15,8 @@ const TimezoneContainer = () => {
 	)
 	const [targetZone, setTargetZone] = useState("")
 
-	const badInput = !originTime || !myZone || !targetZone
+	const incompleteFields = !originTime || !myZone || !targetZone
 
-	const originTimeString = getOriginTimeString(originTime, myZone)
 	const destinationTime = getOriginTimeString(originTime, myZone)
 		.clone()
 		.tz(targetZone || myZone)
@@ -33,6 +33,11 @@ const TimezoneContainer = () => {
 		setOriginTime(new Date(moment.tz(moment().utc().format())))
 		setTargetZone("")
 	}
+
+	const originZoneOffset = getTimeOffsets(myZone, originTime)
+	const targetZoneOffset = getTimeOffsets(targetZone || myZone, originTime)
+
+	const offsetDifference = (originZoneOffset - targetZoneOffset) / 60
 
 	return (
 		<Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
@@ -61,15 +66,11 @@ const TimezoneContainer = () => {
 				</Segment>
 
 				<ConvertedTimeDisplay
-					badInput={badInput}
+					incompleteFields={incompleteFields}
 					destinationTime={destinationTime}
-					originTimeString={originTimeString}
+					offsetDifference={offsetDifference}
 				/>
-
-				<Divider horizontal>Like what I've built? Connect with me on</Divider>
-				<Icon name="github" link size="large" />
-				<Icon name="linkedin" color="blue" link size="large" />
-				<Icon name="twitter" color="teal" link size="large" />
+				<PageFooter />
 			</Grid.Column>
 		</Grid>
 	)
