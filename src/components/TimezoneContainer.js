@@ -9,18 +9,23 @@ import moment from "moment-timezone"
 import { getOriginTimeString, getTimeOffsets } from "./helpers"
 
 const TimezoneContainer = () => {
+	//STATE
 	const [myZone, setMyZone] = useState(moment.tz.guess())
 	const [originTime, setOriginTime] = useState(
 		new Date(moment.tz(moment().utc().format()))
 	)
 	const [targetZone, setTargetZone] = useState("")
 
+	//VARIABLES
 	const incompleteFields = !originTime || !myZone || !targetZone
-
 	const destinationTime = getOriginTimeString(originTime, myZone)
 		.clone()
 		.tz(targetZone || myZone)
+	const originZoneOffset = getTimeOffsets(myZone, originTime)
+	const targetZoneOffset = getTimeOffsets(targetZone || myZone, originTime)
+	const offsetDifference = (originZoneOffset - targetZoneOffset) / 60
 
+	//EVENT HANDLERS
 	const handleSetMyZone = (event, { value }) => {
 		setMyZone(value)
 	}
@@ -33,11 +38,6 @@ const TimezoneContainer = () => {
 		setOriginTime(new Date(moment.tz(moment().utc().format())))
 		setTargetZone("")
 	}
-
-	const originZoneOffset = getTimeOffsets(myZone, originTime)
-	const targetZoneOffset = getTimeOffsets(targetZone || myZone, originTime)
-
-	const offsetDifference = (originZoneOffset - targetZoneOffset) / 60
 
 	return (
 		<Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
