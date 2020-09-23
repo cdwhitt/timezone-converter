@@ -1,92 +1,77 @@
 import React, { useState } from "react"
 import DateTimePicker from "react-datetime-picker"
-import {
-	Header,
-	Container,
-	Segment,
-	Icon,
-	Button,
-	Dropdown,
-	Label,
-} from "semantic-ui-react"
+import { Header, Segment, Icon, Button, Grid, Divider } from "semantic-ui-react"
+import ToolTip from "./ToolTip"
+import DropdownInputs from "./DropdownInputs"
+import ConvertedTimeDisplay from "./ConvertedTimeDisplay"
 import moment from "moment-timezone"
-import { dropdownOptions } from "./helpers"
+import { getOriginTimeString } from "./helpers"
 
 const TimezoneContainer = () => {
 	const [myZone, setMyZone] = useState(moment.tz.guess())
-	const [origin, setOrigin] = useState(
+	const [originTime, setOriginTime] = useState(
 		new Date(moment.tz(moment().utc().format()))
 	)
+	const [targetZone, setTargetZone] = useState("")
 
-	const [target, setTarget] = useState("")
+	const badInput = !originTime || !myZone || !targetZone
 
-	let here = moment.tz(origin, myZone)
-	let destination = here.clone().tz(target || myZone)
+	const originTimeString = getOriginTimeString(originTime, myZone)
+	const destinationTime = getOriginTimeString(originTime, myZone)
+		.clone()
+		.tz(targetZone || myZone)
 
-	const resetCurrentTime = () => {
-		setMyZone(moment.tz.guess())
-		setOrigin(new Date(moment.tz(moment().utc().format())))
-		setTarget("")
-	}
-
-	const handleSetZone = (event, { value }) => {
+	const handleSetMyZone = (event, { value }) => {
 		setMyZone(value)
 	}
 
-	const handleSetTarget = (event, { value }) => {
-		setTarget(value)
+	const handleSetTargetZone = (event, { value }) => {
+		setTargetZone(value)
+	}
+	const resetCurrentTime = () => {
+		setMyZone(moment.tz.guess())
+		setOriginTime(new Date(moment.tz(moment().utc().format())))
+		setTargetZone("")
 	}
 
 	return (
-		<Segment>
-			<Header as="h1" icon>
-				<Icon name="clock outline" color="blue" />
-				Timezone Converter
-				<Header.Subheader>
-					Enter a date and time and select a timezone you wish to convert to
-				</Header.Subheader>
-			</Header>
-			<Container>
-				<DateTimePicker onChange={setOrigin} value={origin} />
+		<Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
+			<Grid.Column style={{ maxWidth: 450 }}>
+				<Header icon as="h2" color="teal" textAlign="center">
+					<Icon name="clock outline" color="teal" /> Timezone Converter
+					<Header.Subheader></Header.Subheader>
+				</Header>
 
-				<Button
-					onClick={resetCurrentTime}
-					color="blue"
-					size="small"
-					attached="right"
-					style={{ paddingBottom: "0.5em", paddingTop: "0.68em" }}
-				>
-					Reset to Current
-				</Button>
-			</Container>
-			<Dropdown
-				placeholder="Select Your Timzone"
-				fluid
-				search
-				value={myZone}
-				onChange={handleSetZone}
-				selection
-				options={dropdownOptions}
-			/>
-			<Dropdown
-				placeholder="Select Target Timzone"
-				fluid
-				search
-				value={target}
-				onChange={handleSetTarget}
-				selection
-				options={dropdownOptions}
-			/>
+				<Segment stacked>
+					Date/Time:
+					<br />
+					<DateTimePicker onChange={setOriginTime} value={originTime} />
+					<ToolTip />
+					<Divider hidden />
+					<DropdownInputs
+						myZone={myZone}
+						handleSetMyZone={handleSetMyZone}
+						targetZone={targetZone}
+						handleSetTargetZone={handleSetTargetZone}
+					/>
+					<Divider hidden />
+					<Button color="teal" fluid size="large" onClick={resetCurrentTime}>
+						Reset
+					</Button>
+				</Segment>
 
-			{origin && myZone && target ? (
-				<p>
-					The current date and time for your selection is:{" "}
-					{destination.format("MMMM Do YYYY, h:mm a")}
-				</p>
-			) : (
-				<Label color="blue">Please select an origin and a target time</Label>
-			)}
-		</Segment>
+				<ConvertedTimeDisplay
+					badInput={badInput}
+					destinationTime={destinationTime}
+					originTimeString={originTimeString}
+				/>
+
+				<Divider horizontal>Like what I've built? Connect with me on</Divider>
+				<Icon name="github" link size="large" />
+				<Icon name="linkedin" color="blue" link size="large" />
+				<Icon name="twitter" color="teal" link size="large" />
+			</Grid.Column>
+		</Grid>
 	)
 }
 
