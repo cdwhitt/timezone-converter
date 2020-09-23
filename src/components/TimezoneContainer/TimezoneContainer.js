@@ -4,7 +4,7 @@ import { Header, Segment, Icon, Button, Grid, Divider } from "semantic-ui-react"
 import ToolTip from "./ToolTip"
 import DropdownInputs from "./DropdownInputs"
 import ConvertedTimeDisplay from "./ConvertedTimeDisplay"
-import PageFooter from "./PageFooter"
+import PageFooter from "../reusable-components/PageFooter"
 import moment from "moment-timezone"
 import { getOriginTimeString, getTimeOffsets } from "./helpers"
 

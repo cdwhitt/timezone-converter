@@ -1,12 +1,19 @@
 import React from "react"
-import "./App.css"
+import { BrowserRouter, Switch, Route } from "react-router-dom"
 
-import TimezoneContainer from "./components/TimezoneContainer"
+import "./App.css"
+import LandingPage from "./components/LandingPage/LandingPage"
+import TimezoneContainer from "./components/TimezoneContainer/TimezoneContainer"
 
 function App() {
 	return (
 		<div className="App">
-			<TimezoneContainer />
+			<BrowserRouter>
+				<Switch>
+					<Route exact path="/" component={LandingPage} />
+					<Route exact path="/convert" component={TimezoneContainer} />
+				</Switch>
+			</BrowserRouter>
 		</div>
 	)
 }

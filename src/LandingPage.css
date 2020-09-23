@@ -1,0 +1,10 @@
+.background-image {
+	background-image: url("./background-image.jpg");
+	background-size: cover;
+	height: 102vh;
+}
+
+.header {
+	font-size: "4em";
+	font-weight: "normal";
+}

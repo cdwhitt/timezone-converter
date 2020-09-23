@@ -2,10 +2,17 @@ import React from "react"
 
 import { Icon, Divider } from "semantic-ui-react"
 
-const PageFooter = () => {
+const PageFooter = ({ inverted }) => {
 	return (
 		<>
-			<Divider horizontal>Like what I've built? Connect with me on</Divider>
+			{inverted ? (
+				<Divider horizontal inverted>
+					Like what I've built? Connect with me on
+				</Divider>
+			) : (
+				<Divider horizontal>Like what I've built? Connect with me on</Divider>
+			)}
+
 			<a
 				href="http://www.github.com/cdwhitt"
 				target="_blank"
