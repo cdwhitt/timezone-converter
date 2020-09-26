@@ -11,6 +11,7 @@ const DropdownInputs = ({
 	return (
 		<>
 			<Form.Dropdown
+				disabled
 				label="Origin Timezone:"
 				placeholder="Select Your Timzone"
 				fluid

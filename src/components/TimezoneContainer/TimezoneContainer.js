@@ -11,9 +11,7 @@ import { getOriginTimeString, getTimeOffsets } from "./helpers"
 const TimezoneContainer = () => {
 	//STATE
 	const [myZone, setMyZone] = useState(moment.tz.guess())
-	const [originTime, setOriginTime] = useState(
-		new Date(moment.tz(moment().utc().format()))
-	)
+	const [originTime, setOriginTime] = useState(new Date(moment.tz(myZone)))
 	const [targetZone, setTargetZone] = useState("")
 
 	//VARIABLES
@@ -35,7 +33,7 @@ const TimezoneContainer = () => {
 	}
 	const resetCurrentTime = () => {
 		setMyZone(moment.tz.guess())
-		setOriginTime(new Date(moment.tz(moment().utc().format())))
+		setOriginTime(new Date(moment.tz(myZone)))
 		setTargetZone("")
 	}
 
