@@ -41,8 +41,8 @@ const ToolTip = () => {
 					<List.Content>
 						<List.Header>Origin Timezone</List.Header>
 						<List.Description>
-							Will be assumed by moment.js, but you can search for whichever
-							timezone you prefer to start with
+							Will be assumed by moment.js and/or your browser - you cannot
+							change this at this time
 						</List.Description>
 					</List.Content>
 				</List.Item>
