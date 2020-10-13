@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import DateTimePicker from "react-datetime-picker"
 import { Header, Segment, Icon, Button, Grid, Divider } from "semantic-ui-react"
 import ToolTip from "./ToolTip"
@@ -7,7 +7,7 @@ import ConvertedTimeDisplay from "./ConvertedTimeDisplay"
 // import Map from "../Map/Map"
 import PageFooter from "../reusable-components/PageFooter"
 import moment from "moment-timezone"
-import axios from "axios"
+// import axios from "axios"
 import { getOriginTimeString, getTimeOffsets } from "./helpers"
 
 const TimezoneContainer = () => {
