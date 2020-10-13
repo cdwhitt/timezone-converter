@@ -6,11 +6,6 @@ const containerStyle = {
 	height: "400px",
 }
 
-// const center = {
-// 	lat: -3.745,
-// 	lng: -38.523,
-// }
-
 const Map = ({ center }) => {
 	const [map, setMap] = React.useState(null)
 
