@@ -4,7 +4,7 @@ import { Header, Segment, Icon, Button, Grid, Divider } from "semantic-ui-react"
 import ToolTip from "./ToolTip"
 import DropdownInputs from "./DropdownInputs"
 import ConvertedTimeDisplay from "./ConvertedTimeDisplay"
-import Map from "../Map/Map"
+// import Map from "../Map/Map"
 import PageFooter from "../reusable-components/PageFooter"
 import moment from "moment-timezone"
 import axios from "axios"
@@ -14,11 +14,11 @@ const TimezoneContainer = () => {
 	//STATE
 	const [myZone, setMyZone] = useState(moment.tz.guess())
 	const [originTime, setOriginTime] = useState(new Date(moment.tz(myZone)))
-	const [targetZone, setTargetZone] = useState(myZone)
-	const [center, setCenter] = useState({
-		lat: 0,
-		lng: 0,
-	})
+	const [targetZone, setTargetZone] = useState("")
+	// const [center, setCenter] = useState({
+	// 	lat: 0,
+	// 	lng: 0,
+	// })
 
 	//VARIABLES
 	const incompleteFields = !originTime || !myZone || !targetZone
@@ -43,18 +43,19 @@ const TimezoneContainer = () => {
 		setTargetZone("")
 	}
 
-	useEffect(() => {
-		const fetchMapCoordinates = async () => {
-			const { data } = await axios.get(
-				`https://maps.googleapis.com/maps/api/geocode/json?address=${targetZone}&key=AIzaSyDh9Cw14d3xcgzIjUfZlnGZPi67ItRp6Gk`
-			)
+	// useEffect(() => {
+	// 	const fetchMapCoordinates = async () => {
+	// 		const { data } = await axios.get(
+	// 			`https://maps.googleapis.com/maps/api/geocode/json?address=${targetZone}&key=AIzaSyDh9Cw14d3xcgzIjUfZlnGZPi67ItRp6Gk`
+	// 		)
 
-			console.log(data.results[0].geometry.location, "DATA")
-			setCenter(data.results[0].geometry.location)
-		}
+	// 		console.log(data, "WHAT CAN I DO WITH THIS")
 
-		fetchMapCoordinates()
-	}, [targetZone])
+	// 		setCenter(data.results[0].geometry.location)
+	// 	}
+
+	// 	fetchMapCoordinates()
+	// }, [targetZone])
 
 	return (
 		<Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
@@ -87,7 +88,7 @@ const TimezoneContainer = () => {
 					destinationTime={destinationTime}
 					offsetDifference={offsetDifference}
 				/>
-				<Map center={center} />
+				{/* <Map center={center} /> */}
 				<PageFooter />
 			</Grid.Column>
 		</Grid>
