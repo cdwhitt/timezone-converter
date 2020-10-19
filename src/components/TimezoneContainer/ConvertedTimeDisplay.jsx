@@ -5,10 +5,12 @@ const ConvertedTimeDisplay = ({
 	incompleteFields,
 	destinationTime,
 	offsetDifference,
+	myZone,
+	targetZone,
 }) => {
 	return (
 		<Message info>
-			{!incompleteFields ? (
+			{myZone !== targetZone ? (
 				<List>
 					<Header as="h4">Based on your input:</Header>
 					<List.Item>

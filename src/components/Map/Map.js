@@ -8,7 +8,7 @@ const containerStyle = {
 
 const Map = ({ center }) => {
 	const [map, setMap] = React.useState(null)
-	console.log(map)
+	// console.log(map)
 
 	const onLoad = React.useCallback(function callback(map) {
 		const bounds = new window.google.maps.LatLngBounds()
@@ -28,6 +28,7 @@ const Map = ({ center }) => {
 				zoom={10}
 				onLoad={onLoad}
 				onUnmount={onUnmount}
+				map={map}
 			>
 				{/* Child components, such as markers, info windows, etc. */}
 				<></>

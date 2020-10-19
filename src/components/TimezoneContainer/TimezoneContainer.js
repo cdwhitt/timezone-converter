@@ -1,24 +1,24 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import DateTimePicker from "react-datetime-picker"
 import { Header, Segment, Icon, Button, Grid, Divider } from "semantic-ui-react"
 import ToolTip from "./ToolTip"
 import DropdownInputs from "./DropdownInputs"
 import ConvertedTimeDisplay from "./ConvertedTimeDisplay"
-// import Map from "../Map/Map"
+import Map from "../Map/Map"
 import PageFooter from "../reusable-components/PageFooter"
 import moment from "moment-timezone"
-// import axios from "axios"
+import axios from "axios"
 import { getOriginTimeString, getTimeOffsets } from "./helpers"
 
 const TimezoneContainer = () => {
 	//STATE
 	const [myZone, setMyZone] = useState(moment.tz.guess())
 	const [originTime, setOriginTime] = useState(new Date(moment.tz(myZone)))
-	const [targetZone, setTargetZone] = useState("")
-	// const [center, setCenter] = useState({
-	// 	lat: 0,
-	// 	lng: 0,
-	// })
+	const [targetZone, setTargetZone] = useState(myZone)
+	const [center, setCenter] = useState({
+		lat: 0,
+		lng: 0,
+	})
 
 	//VARIABLES
 	const incompleteFields = !originTime || !myZone || !targetZone
@@ -40,22 +40,22 @@ const TimezoneContainer = () => {
 	const resetCurrentTime = () => {
 		setMyZone(moment.tz.guess())
 		setOriginTime(new Date(moment.tz(myZone)))
-		setTargetZone("")
+		setTargetZone(myZone)
 	}
 
-	// useEffect(() => {
-	// 	const fetchMapCoordinates = async () => {
-	// 		const { data } = await axios.get(
-	// 			`https://maps.googleapis.com/maps/api/geocode/json?address=${targetZone}&key=AIzaSyDh9Cw14d3xcgzIjUfZlnGZPi67ItRp6Gk`
-	// 		)
+	useEffect(() => {
+		const fetchMapCoordinates = async () => {
+			const { data } = await axios.get(
+				`https://maps.googleapis.com/maps/api/geocode/json?address=${targetZone}&key=AIzaSyDh9Cw14d3xcgzIjUfZlnGZPi67ItRp6Gk`
+			)
 
-	// 		console.log(data, "WHAT CAN I DO WITH THIS")
+			console.log(data, "WHAT CAN I DO WITH THIS")
 
-	// 		setCenter(data.results[0].geometry.location)
-	// 	}
+			setCenter(data.results[0].geometry.location)
+		}
 
-	// 	fetchMapCoordinates()
-	// }, [targetZone])
+		fetchMapCoordinates()
+	}, [targetZone])
 
 	return (
 		<Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
@@ -87,8 +87,12 @@ const TimezoneContainer = () => {
 					incompleteFields={incompleteFields}
 					destinationTime={destinationTime}
 					offsetDifference={offsetDifference}
+					myZone={myZone}
+					targetZone={targetZone}
 				/>
-				{/* <Map center={center} /> */}
+				<Segment style={{ maxWidth: 450 }}>
+					<Map center={center} />
+				</Segment>
 				<PageFooter />
 			</Grid.Column>
 		</Grid>
